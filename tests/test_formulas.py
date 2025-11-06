@@ -11,6 +11,9 @@ from pet_comparison.formulas import (
     penman_monteith_leuning,
     pm_co2_aware,
     pm_co2_lai_aware,
+    bouchet_complementary,
+    advection_aridity_model,
+    granger_gray_model,
 )
 
 

@@ -74,14 +74,16 @@ def penman_monteith(
     
     # Aerodynamic resistance
     # For grass reference: ra = 208/wind_speed
-    ra = 208.0 / wind_speed
+    # Add minimum wind speed to prevent division by zero
+    wind_speed_safe = np.maximum(wind_speed, 0.5)  # Minimum 0.5 m/s
+    ra = 208.0 / wind_speed_safe
     
     # Calculate ET0 using Penman-Monteith equation
     numerator = (
         0.408 * delta * (net_radiation - soil_heat_flux) +
         gamma * (900 / (temperature + 273)) * wind_speed * vpd
     )
-    denominator = delta + gamma * (1 + 0.34 * wind_speed)
+    denominator = delta + gamma * (1 + 0.34 * wind_speed_safe)
     
     ET0 = numerator / denominator
     

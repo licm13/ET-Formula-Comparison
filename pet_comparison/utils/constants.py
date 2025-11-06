@@ -64,7 +64,10 @@ def get_psychrometric_constant(pressure, temperature):
     gamma : float or array-like
         Psychrometric constant (kPa °C-1)
     """
-    lambda_v = get_latent_heat(temperature)
+    # Simplified formula: gamma = cp * P / (epsilon * lambda)
+    # For standard conditions, gamma ≈ 0.665e-3 * P (kPa)
+    # More accurate: gamma = 0.665e-3 * P / lambda_v
+    # But lambda_v varies little (~2.45 MJ/kg), so simplified form is typically used
     return 0.665e-3 * pressure
 
 

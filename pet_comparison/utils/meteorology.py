@@ -34,7 +34,11 @@ def net_radiation(shortwave_in, albedo, longwave_in=None, temperature=None, emis
     # Net longwave
     if longwave_in is not None:
         from .constants import STEFAN_BOLTZMANN
-        T_k = temperature + T_ZERO if temperature is not None else 293.15
+        if temperature is not None:
+            T_k = temperature + T_ZERO
+        else:
+            # Default to 20°C (293.15 K) if temperature not provided
+            T_k = 293.15
         Rnl = longwave_in - emissivity * STEFAN_BOLTZMANN * (T_k ** 4)
     else:
         # Simplified approach if longwave not available

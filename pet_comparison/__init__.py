@@ -12,7 +12,9 @@ from .formulas import (
     penman_monteith_leuning,
     pm_co2_aware,
     pm_co2_lai_aware,
-    complementary_relationship,
+    bouchet_complementary,
+    advection_aridity_model,
+    granger_gray_model,
 )
 
 from .utils import constants, meteorology
@@ -24,7 +26,9 @@ __all__ = [
     "penman_monteith_leuning",
     "pm_co2_aware",
     "pm_co2_lai_aware",
-    "complementary_relationship",
+    "bouchet_complementary",
+    "advection_aridity_model",
+    "granger_gray_model",
     "constants",
     "meteorology",
 ]
