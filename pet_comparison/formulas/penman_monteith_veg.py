@@ -259,7 +259,7 @@ def surface_resistance_from_conductance(ecosystem_conductance_val, temperature, 
     T_kelvin = temperature + 273.15
 
     # Convert conductance from mol m⁻² s⁻¹ to m s⁻¹ / 将导度从 mol m⁻² s⁻¹ 转换为 m s⁻¹
-    g_m_per_s = ecosystem_conductance_val * (R_GAS * T_kelvin) / P_AIR_PA
+    g_m_per_s = ecosystem_conductance_val * (R_GAS * T_kelvin) / (pressure * 1000.0)
 
     # Ensure minimum conductance to prevent infinite resistance / 确保最小导度以防止无限阻力
     g_m_per_s = np.maximum(g_m_per_s, 1e-12)
