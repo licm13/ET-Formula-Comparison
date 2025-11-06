@@ -412,7 +412,7 @@ def penman_monteith_veg(temperature, net_radiation, wind_speed, vpd,
     ges = ecosystem_conductance(gls, lai)
 
     # Convert to surface resistance / 转换为表面阻力
-    rs = surface_resistance_from_conductance(ges, temperature)
+    rs = surface_resistance_from_conductance(ges, temperature, pressure)
 
     # Calculate aerodynamic resistance / 计算空气动力学阻力
     # FAO-56 approximation: ra = 208 / u2 (Equation 6 in Liu et al. 2023)
