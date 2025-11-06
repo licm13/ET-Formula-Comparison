@@ -1,0 +1,16 @@
+[project]
+name = "petlab"
+version = "0.1.0"
+description = "Reproducible PET formula virtual lab (Jensen-Haise, Hargreaves, Priestley-Taylor) with multi-process analysis."
+authors = [{name="petlab authors"}]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "pandas",
+    "matplotlib"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"

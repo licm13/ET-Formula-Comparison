@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this replicate, please cite the original paper."
+title: "PDSI_CMIP6 Python Replicate"
+authors:
+  - family-names: "HydroX Lab"
+    given-names: "Team"
+date-released: "2025-11-06"
+version: "0.1.0"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Xiong"
+      given-names: "Jinghua"
+    - family-names: "Yang"
+      given-names: "Yuting"
+  title: "PDSI_CMIP6: an ensemble CMIP6-projected self-calibrated Palmer drought severity index dataset"
+  journal: "Scientific Data"
+  year: 2025

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ep-veg"
+version = "0.1.0"
+description = "Physically-based potential evapotranspiration with vegetation responses (EP_Veg)"
+readme = "README.md"
+authors = [{name="HydroX Lab (replication)", email="noreply@example.com"}]
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.21", "matplotlib>=3.6", "pandas>=2.0"]
+
+[project.urls]
+Homepage = "https://example.com/ep-veg-replication"

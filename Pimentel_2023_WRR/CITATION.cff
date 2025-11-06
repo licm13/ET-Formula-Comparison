@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the following paper."
+authors:
+  - family-names: Pimentel
+    given-names: R.
+  - family-names: Arheimer
+    given-names: B.
+  - family-names: Crochemore
+    given-names: L.
+  - family-names: Andersson
+    given-names: J. C. M.
+  - family-names: Pechlivanidis
+    given-names: I. G.
+  - family-names: Gustafsson
+    given-names: D.
+title: "Which Potential Evapotranspiration Formula to Use in Hydrological Modeling World-Wide?"
+type: article
+year: 2023
+doi: 10.1029/2022WR033447
+repository-code: "https://example.com/petlab"   # placeholder

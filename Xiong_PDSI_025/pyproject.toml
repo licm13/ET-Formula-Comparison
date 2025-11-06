@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdsi-cmip6-replicate"
+version = "0.1.0"
+description = "A Python reimplementation of the PDSI_CMIP6 workflow (Xiong & Yang, 2025) with synthetic examples."
+authors = [{name="HydroX Lab (replication scaffolding)", email="example@hydroxlab.org"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["PDSI", "drought", "CMIP6", "evapotranspiration", "hydrology"]
+dependencies = [
+    "numpy>=1.21",
+    "scipy>=1.9",
+    "xarray>=2023.1.0",
+    "matplotlib>=3.7",
+    "pandas>=1.5",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+    "Topic :: Scientific/Engineering :: Hydrology",
+]
+
+[project.urls]
+homepage = "https://example.com/pdsi-cmip6-replicate"

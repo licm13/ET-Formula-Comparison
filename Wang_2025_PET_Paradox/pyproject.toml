@@ -1,0 +1,16 @@
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paradoxes-pet"
+version = "0.1.0"
+description = "Reproducible teaching code for PET paradoxes (with synthetic data)"
+authors = [{name="HydroX Lab (teaching demo)", email="example@example.com"}]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["numpy", "pandas", "matplotlib"]
+
+[project.urls]
+homepage = "https://example.com"

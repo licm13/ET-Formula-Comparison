@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+title: "Replica utilities for Yang et al. (2018) Nature Climate Change"
+message: "If you use this code, please cite the original paper and this repository."
+type: software
+authors:
+  - family-names: "Yang"
+    given-names: "Yuting"
+  - family-names: "Roderick"
+    given-names: "Michael L."
+  - family-names: "Zhang"
+    given-names: "Shulei"
+  - family-names: "McVicar"
+    given-names: "Tim R."
+  - family-names: "Donohue"
+    given-names: "Randall J."
+repository-code: "https://example.com/hydroco2-replica"
+identifiers:
+  - type: doi
+    value: 10.1038/s41558-018-0361-0
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Yang"
+      given-names: "Yuting"
+    - family-names: "Roderick"
+      given-names: "Michael L."
+    - family-names: "Zhang"
+      given-names: "Shulei"
+    - family-names: "McVicar"
+      given-names: "Tim R."
+    - family-names: "Donohue"
+      given-names: "Randall J."
+  title: "Hydrologic implications of vegetation response to elevated CO2 in climate projections"
+  journal: "Nature Climate Change"
+  year: 2019
+  volume: 9
+  start: 44
+  end: 48
+  doi: "10.1038/s41558-018-0361-0"
