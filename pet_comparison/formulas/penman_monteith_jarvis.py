@@ -118,7 +118,7 @@ def jarvis_temperature_response(temperature):
     f_ta = 1.0 - 0.0016 * (T_opt - temperature) ** 2
 
     # Bound to valid range / 限制到有效范围
-    f_ta = np.clip(f_ta, 0.0, 1.1)
+    f_ta = np.clip(f_ta, 0.0, 1.0)
 
     return f_ta
 
