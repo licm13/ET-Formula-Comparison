@@ -222,7 +222,7 @@ def ecosystem_conductance(leaf_conductance, lai):
     return ges
 
 
-def surface_resistance_from_conductance(ecosystem_conductance_val, temperature):
+def surface_resistance_from_conductance(ecosystem_conductance_val, temperature, pressure=101.3):
     """
     Convert ecosystem conductance to surface resistance.
     将生态系统导度转换为表面阻力。
