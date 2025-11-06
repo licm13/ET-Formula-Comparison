@@ -7,7 +7,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-def annual_aridity_index(precip_mm_month: pd.Series, pet_mm_month: pd.Series, freq="A") -> pd.Series:
+def annual_aridity_index(precip_mm_month: pd.Series, pet_mm_month: pd.Series, freq="YE") -> pd.Series:
     """
     Aridity Index (AI) = P / PET, aggregated annually. 旱湿指数 AI=年总降水/年总PET。
     Inputs are monthly series with DatetimeIndex.
@@ -35,7 +35,7 @@ def toy_pdsi_like(precip_mm_month: pd.Series, pet_mm_month: pd.Series, window=12
     Z = (M_roll - mu) / sigma
     return Z
 
-def drought_extent_and_frequency(pdsi_like: pd.Series, thresh=-3.0, freq="A") -> tuple[pd.Series, pd.Series]:
+def drought_extent_and_frequency(pdsi_like: pd.Series, thresh=-3.0, freq="YE") -> tuple[pd.Series, pd.Series]:
     """
     Estimate "extent" and "frequency" based on % of months below threshold.
     以阈值统计“频次”与“范围”（单点示意：用百分比近似）。

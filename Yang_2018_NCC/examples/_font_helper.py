@@ -17,7 +17,8 @@ def setup_cn_en_font():
         "WenQuanYi Zen Hei",
         "Arial Unicode MS",
     ]
-    fm._rebuild()
+    # Note: fm._rebuild() is deprecated in newer matplotlib versions
+    # Font cache is now automatically managed
     existing = set(f.name for f in fm.fontManager.ttflist)
     chosen = None
     for name in candidates:

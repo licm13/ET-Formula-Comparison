@@ -31,9 +31,9 @@ def main():
     PET_yang = pm_rc_pet_yang_mm_day(df["Ta_C"], df["Rn_star_MJ_m2_day"], df["VPD_kPa"], df["WS2_m_s"], df["CO2_ppm"])
     PET_jarvis = pm_rc_pet_jarvis_mm_day(df["Ta_C"], df["Rn_star_MJ_m2_day"], df["VPD_kPa"], df["WS2_m_s"], df["Sg_W_m2"], df["CO2_ppm"])
 
-    pet_month_pm = PET_pm * days
-    pet_month_yang = PET_yang * days
-    pet_month_jarvis = PET_jarvis * days
+    pet_month_pm = pd.Series(PET_pm * days, index=df.index)
+    pet_month_yang = pd.Series(PET_yang * days, index=df.index)
+    pet_month_jarvis = pd.Series(PET_jarvis * days, index=df.index)
 
     # AI (annual)
     AI_pm = annual_aridity_index(df["P_mm"], pet_month_pm)
@@ -71,9 +71,9 @@ def main():
 
     # Annual mean PDSI-like anomaly (demo for panel a)
     Z_annual = pd.DataFrame({
-        "PM": Z_pm.resample("A").mean(),
-        "Yang": Z_yang.resample("A").mean(),
-        "Jarvis": Z_jarvis.resample("A").mean()
+        "PM": Z_pm.resample("YE").mean(),
+        "Yang": Z_yang.resample("YE").mean(),
+        "Jarvis": Z_jarvis.resample("YE").mean()
     })
     Z_annual = Z_annual - Z_annual[(Z_annual.index.year>=1950)&(Z_annual.index.year<=2014)].mean()
 
