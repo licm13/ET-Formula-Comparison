@@ -504,7 +504,7 @@ ax.contour(lons, lats, pet_diff.values, levels=10, colors='black', linewidths=0.
 # Add coastlines approximation
 ax.set_xlim(-180, 180)
 ax.set_ylim(-90, 90)
-ax.set_aspect('equal')
+ax.set_aspect('auto')  # 'equal' distorts global lat/lon plots
 
 # Formatting
 ax.set_xlabel('Longitude', fontsize=14)
