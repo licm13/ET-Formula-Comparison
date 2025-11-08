@@ -84,30 +84,24 @@ print("  Generating climate variables...")
 
 # 1. Temperature (°C) - latitude and seasonal dependent
 def generate_temperature(nlat, nlon, ntime, lats):
-    """Generate realistic temperature with latitude gradient and seasonality"""
-    temp = np.zeros((ntime, nlat, nlon))
-    for t in range(ntime):
-        # Seasonal cycle (Northern Hemisphere reference)
-        month = time[t].month
-        seasonal_phase = 2 * np.pi * (month - 1) / 12
+    """Generate realistic temperature with latitude gradient and seasonality (vectorized)"""
+    # Create coordinate arrays for broadcasting
+    months = (np.arange(ntime) % 12) + 1
+    seasonal_phase = 2 * np.pi * (months - 1) / 12
+    lats_abs = np.abs(lats)
 
-        for i, lat in enumerate(lats):
-            # Base temperature decreases with latitude
-            base_temp = 30 - 0.6 * abs(lat)
+    # Calculate base temperature and seasonal amplitude across latitudes
+    base_temp = 30 - 0.6 * lats_abs
+    seasonal_amp = 15 * (lats_abs / 90) ** 0.5
 
-            # Seasonal amplitude decreases toward equator
-            seasonal_amp = 15 * (abs(lat) / 90) ** 0.5
+    # Use broadcasting to combine time and latitude dimensions
+    temp_lat = base_temp[np.newaxis, :] + seasonal_amp[np.newaxis, :] * np.sin(seasonal_phase[:, np.newaxis] - np.pi/2)
 
-            # Add seasonal cycle
-            temp_lat = base_temp + seasonal_amp * np.sin(seasonal_phase - np.pi/2)
-
-            # Add spatial noise
-            temp[t, i, :] = temp_lat + np.random.normal(0, 2, nlon)
-
-    # Add long-term warming trend (climate change signal)
-    trend = np.linspace(0, 1.5, ntime)  # 1.5°C warming over 30 years
-    temp += trend[:, None, None]
-
+    # Add spatial noise and trend
+    noise = np.random.normal(0, 2, (ntime, nlat, nlon))
+    trend = np.linspace(0, 1.5, ntime)[:, np.newaxis, np.newaxis]
+    
+    temp = temp_lat[..., np.newaxis] + noise + trend
     return temp
 
 temperature = generate_temperature(nlat, nlon, ntime, lats)
