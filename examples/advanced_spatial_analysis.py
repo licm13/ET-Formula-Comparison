@@ -349,18 +349,18 @@ lai = np.where(land_cover == 1, 5.0,  # Forest
        np.where(land_cover == 2, 3.0,  # Cropland
        np.where(land_cover == 3, 1.5, 0.5)))  # Grassland, Urban
 
-pet_pm_jarvis = np.zeros_like(temp)
-for t in range(ntime):
-    pet_pm_jarvis[t] = penman_monteith_jarvis(
-        temperature=temp[t],
-        relative_humidity=rh[t],
-        wind_speed=ws[t],
-        net_radiation=rad[t],
-        solar_radiation=rad[t] * 0.6,  # Approximate shortwave
-        pressure=pressure[t],
-        co2_concentration=co2_concentration[t],
-        lai=lai
-    )
+# Broadcast the 1D CO2 array to match the 3D climate arrays
+co2_broadcasted = co2_concentration[:, np.newaxis, np.newaxis]
+pet_pm_jarvis = penman_monteith_jarvis(
+    temperature=temp,
+    relative_humidity=rh,
+    wind_speed=ws,
+    net_radiation=rad,
+    solar_radiation=rad * 0.6,  # Approximate shortwave
+    pressure=pressure,
+    co2_concentration=co2_broadcasted,
+    lai=lai
+)
 
 print("  Computing PT-JPL (Priestley-Taylor JPL)...")
 pet_pt_jpl = priestley_taylor_jpl(
