@@ -71,7 +71,8 @@ def psychrometric_constant(P=P0, lambda_Jkg=2.45e6):
     """
     # Convert P from Pa to kPa for main library function
     P_kpa = P / 1000.0
-    T_nominal = 20.0  # Use nominal temperature
+    # A nominal temperature is passed to satisfy the function signature, though it is currently unused.
+    T_nominal = 20.0
     # Main library returns kPa/°C, convert to Pa/K
     return _gamma_kpa(P_kpa, T_nominal) * 1000.0
 
