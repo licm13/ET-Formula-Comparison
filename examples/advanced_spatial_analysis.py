@@ -778,18 +778,17 @@ fig, axes = plt.subplots(2, 1, figsize=(16, 12))
 
 # Calculate trends at each grid point
 def calculate_spatial_trend(data):
-    """Calculate Theil-Sen slope at each grid point"""
+    """Calculate Theil-Sen slope at each grid point (vectorized over space)."""
     ntime, nlat, nlon = data.shape
-    trends = np.zeros((nlat, nlon))
-
-    for i in range(nlat):
-        for j in range(nlon):
-            # Annual means
-            annual = data[:, i, j].reshape(30, 12).mean(axis=1)
-            slope, _, _, _ = stats.theilslopes(annual, years)
-            trends[i, j] = slope
-
-    return trends
+    
+    # Reshape data to (time, space) for easier iteration
+    annual_data = data.reshape(30, 12, nlat * nlon).mean(axis=1)
+    
+    # Apply theilslopes to each spatial point in a single loop
+    slopes = np.array([stats.theilslopes(annual_data[:, i], years)[0] for i in range(nlat * nlon)])
+    
+    # Reshape slopes back to (lat, lon)
+    return slopes.reshape(nlat, nlon)
 
 print("    Computing spatial trends (this may take a moment)...")
 trend_baseline = calculate_spatial_trend(PDSI_baseline)
