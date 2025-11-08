@@ -30,7 +30,7 @@ g1 = estimate_g1(T_C_mean_above0=T_mean_above0, MI=1.0, log_base="ln")
 
 # Aww 使用固定 7.5% 斜率（也可传 species="tree"/"grass"/"shrub"）
 # OPTIMIZED: Vectorized calculation instead of list comprehension
-Aww = estimate_Aww(Ca) if hasattr(estimate_Aww(Ca[0]), '__len__') else np.array([estimate_Aww(ca) for ca in Ca])
+Aww = np.vectorize(estimate_Aww)(Ca)
 
 # 计算三种 EP
 # OPTIMIZED: These functions support vectorization via NumPy broadcasting
