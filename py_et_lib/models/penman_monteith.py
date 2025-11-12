@@ -95,8 +95,6 @@ class PMLv2(PenmanMonteithBase):
 
     def _validate_inputs(self) -> None:  # noqa: D401
         # All parameters optional
-        return None
-
     def _compute_gpp(self, ds: xr.Dataset) -> xr.DataArray:
         apar = ds.get("fAPAR", xr.zeros_like(ds["Rn"]) + 0.5) * ds["Rn"].clip(min=0)
         lue = self.params.get("lue", 1.5)
