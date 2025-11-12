@@ -32,7 +32,6 @@ class SEBAL(EnergyBalanceBase):
         g_hot = ds["G"].where(hot_mask).mean(dim="time")
         h_hot = rn_hot - g_hot
 
-        rn_cold = ds["Rn"].where(cold_mask).mean(dim="time")
         g_cold = ds["G"].where(cold_mask).mean(dim="time")
         h_cold = xr.zeros_like(h_hot)
 
