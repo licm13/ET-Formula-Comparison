@@ -78,7 +78,7 @@ class SSEBop(EnergyBalanceBase):
         return _clip_fraction(etf)
 
     def compute_et(self, ds: xr.Dataset) -> xr.Dataset:
-        ensure_variables(ds, {"Rn", "G", "LST", "T_mean"})
+        ensure_variables(ds, {"Rn", "G", "LST", "T_mean", "T_max", "T_min", "u2", "RH"})
         eto = pet.fao56_penman_monteith(ds)
         etf = self._compute_et_fraction(ds)
         aet = etf * eto
