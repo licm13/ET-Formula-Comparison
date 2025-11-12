@@ -109,8 +109,8 @@ class MOD16(PenmanMonteithBase):
         wet_canopy = xr.where(rh > 80, 0.0, 1.0)
 
         stress_temp = xr.where(tmin < 0, 0.1, 1.0 - (tmin - 5.0) / 40.0)
-        stress_temp = xr.clip(stress_temp, 0.1, 1.0)
-        stress_vpd = xr.where(vpd < 0.5, 1.0, xr.clip(1.0 - (vpd - 0.5) / 3.0, 0.1, 1.0))
+        stress_temp = stress_temp.clip(0.1, 1.0)
+        stress_vpd = xr.where(vpd < 0.5, 1.0, (1.0 - (vpd - 0.5) / 3.0).clip(0.1, 1.0))
         g_s = 0.01 + 0.08 * stress_temp * stress_vpd
         r_c = xr.where(g_s > 0, 1.0 / g_s, 1e6)
 
