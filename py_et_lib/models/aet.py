@@ -530,7 +530,7 @@ class SEBAL(EnergyBalanceBase):
     """
 
     def _validate_inputs(self) -> None:
-        return None
+        pass
 
     def _compute_sensible_heat(self, ds: xr.Dataset) -> xr.DataArray:
         """Compute sensible heat flux using hot/cold pixel calibration."""
