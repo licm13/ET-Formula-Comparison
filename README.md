@@ -330,7 +330,7 @@ t_et_ratio = transp / total_et
 print(f"\nPMLv2 Component Analysis:")
 print(f"  Mean Transpiration: {float(transp.mean()):.2f} mm/day")
 print(f"  Mean Soil Evaporation: {float(soil_evap.mean()):.2f} mm/day")
-print(f"  Mean T/ET Ratio: {float(t_et_ratio.mean()):.2%}")
+print(f"  Mean T/ET Ratio: {t_et_ratio.mean():.2%}")
 
 # Plot stacked components / 绘制堆叠组分图
 plt.figure(figsize=(12, 6))
