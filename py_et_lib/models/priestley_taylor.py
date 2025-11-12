@@ -8,12 +8,7 @@ from ..core.base_models import PriestleyTaylorBase
 from ..core.constants import CONSTANTS
 from ..utils.validators import ensure_params, ensure_variables
 
-
-def _slope_svp_curve(temp_c: xr.DataArray) -> xr.DataArray:
-    es = 0.6108 * xr.apply_ufunc(np.exp, (17.27 * temp_c) / (temp_c + 237.3))
-    return 4098 * es / (temp_c + 237.3) ** 2
-
-
+from ..utils.meteorology import _slope_svp_curve
 class PTJPL(PriestleyTaylorBase):
     """Implementation of the PT-JPL evapotranspiration formulation."""
 
