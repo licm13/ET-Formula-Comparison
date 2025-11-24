@@ -13,6 +13,7 @@ MOLECULAR_WEIGHT_WATER = 18.015  # Molecular weight of water (g mol-1)
 MOLECULAR_WEIGHT_AIR = 28.97  # Molecular weight of dry air (g mol-1)
 VON_KARMAN = 0.41  # von Karman constant
 GRAVITY = 9.81  # Gravitational acceleration (m s-2)
+SPECIFIC_GAS_CONSTANT_DRY_AIR = 287.05  # Specific gas constant for dry air (J kg-1 K-1)
 
 # Standard atmospheric pressure (Pa)
 STANDARD_PRESSURE = 101325.0
