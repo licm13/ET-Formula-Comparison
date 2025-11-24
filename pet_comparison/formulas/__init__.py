@@ -23,6 +23,7 @@ from .complementary_relationship import (
     cr_nonlinear,
     granger_gray_model,
 )
+from .gcp_stability import GCPWithStability, compute_equilibrium_evaporation, gcp_evaporation
 
 # New formulas from paper integrations / 从论文整合的新公式
 from .temperature_based import jensen_haise, hargreaves, oudin
@@ -63,6 +64,10 @@ __all__ = [
     'advection_aridity_model',
     'cr_nonlinear',
     'granger_gray_model',
+    # Sub-daily GCP with stability corrections
+    'GCPWithStability',
+    'compute_equilibrium_evaporation',
+    'gcp_evaporation',
     # Temperature-based / 基于温度
     'jensen_haise',
     'hargreaves',

@@ -15,6 +15,9 @@ from .formulas import (
     bouchet_complementary,
     advection_aridity_model,
     granger_gray_model,
+    GCPWithStability,
+    compute_equilibrium_evaporation,
+    gcp_evaporation,
 )
 
 from .utils import constants, meteorology
@@ -29,6 +32,9 @@ __all__ = [
     "bouchet_complementary",
     "advection_aridity_model",
     "granger_gray_model",
+    "GCPWithStability",
+    "compute_equilibrium_evaporation",
+    "gcp_evaporation",
     "constants",
     "meteorology",
 ]

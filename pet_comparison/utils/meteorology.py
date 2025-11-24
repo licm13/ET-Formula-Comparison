@@ -173,7 +173,173 @@ def aerodynamic_resistance(wind_speed, height=2.0, roughness_length=0.03):
     z0h = 0.1 * roughness_length
     
     # Calculate resistance
-    ra = (np.log((height - d) / roughness_length) * 
+    ra = (np.log((height - d) / roughness_length) *
           np.log((height - d) / z0h)) / (VON_KARMAN ** 2 * wind_speed)
-    
+
     return ra
+
+
+def stability_correction_stable(zeta, a=6.1, b=2.5):
+    """
+    Stability correction for stable atmospheric conditions.
+
+    Implements the Cheng & Brutsaert (2005) formulation used with the
+    Monin-Obukhov Similarity Theory (MOST).
+
+    Parameters
+    ----------
+    zeta : float or array-like
+        Dimensionless stability parameter (z - d0) / L.
+    a : float, optional
+        Coefficient controlling the magnitude of the correction.
+    b : float, optional
+        Coefficient controlling the shape of the correction.
+
+    Returns
+    -------
+    array-like
+        Stability correction term :math:`\psi`.
+    """
+    zeta = np.maximum(zeta, 1e-6)
+    return -a * np.log(zeta + (1.0 + zeta ** b) ** (1.0 / b))
+
+
+def stability_correction_unstable_momentum(zeta):
+    """
+    Momentum stability correction for unstable conditions (Businger-Dyer form).
+
+    Parameters
+    ----------
+    zeta : float or array-like
+        Dimensionless stability parameter (z - d0) / L, negative for unstable.
+
+    Returns
+    -------
+    array-like
+        Momentum stability correction term.
+    """
+    x = (1.0 - 16.0 * zeta) ** 0.25
+    return (
+        2.0 * np.log((1.0 + x) / 2.0)
+        + np.log((1.0 + x ** 2) / 2.0)
+        - 2.0 * np.arctan(x)
+        + np.pi / 2.0
+    )
+
+
+def stability_correction_unstable_scalar(zeta):
+    """
+    Scalar (e.g., water vapor or heat) stability correction for unstable air.
+
+    Parameters
+    ----------
+    zeta : float or array-like
+        Dimensionless stability parameter (z - d0) / L, negative for unstable.
+
+    Returns
+    -------
+    array-like
+        Scalar stability correction term.
+    """
+    x = (1.0 - 16.0 * zeta) ** 0.25
+    return 2.0 * np.log((1.0 + x ** 2) / 2.0)
+
+
+def friction_velocity(u_z, measurement_height, displacement_height, roughness_length_momentum, psi_m):
+    """
+    Estimate friction velocity (u*) with stability corrections.
+
+    Parameters
+    ----------
+    u_z : float or array-like
+        Wind speed at measurement height (m s-1).
+    measurement_height : float
+        Measurement height z (m).
+    displacement_height : float
+        Zero-plane displacement height (m).
+    roughness_length_momentum : float
+        Roughness length for momentum (m).
+    psi_m : float or array-like
+        Momentum stability correction term.
+
+    Returns
+    -------
+    array-like
+        Friction velocity (m s-1).
+    """
+    denom = np.log((measurement_height - displacement_height) / roughness_length_momentum) - psi_m
+    denom = np.where(np.abs(denom) < 1e-6, 1e-6, denom)
+    return VON_KARMAN * u_z / denom
+
+
+def monin_obukhov_length(u_star, net_available_energy, latent_heat_flux, air_temperature_c, air_density=1.225):
+    """
+    Compute Monin-Obukhov length using net available energy and latent heat flux.
+
+    Parameters
+    ----------
+    u_star : float or array-like
+        Friction velocity (m s-1).
+    net_available_energy : float or array-like
+        Net available energy (W m-2), often Rn - G.
+    latent_heat_flux : float or array-like
+        Latent heat flux (W m-2).
+    air_temperature_c : float or array-like
+        Air temperature (°C).
+    air_density : float, optional
+        Air density (kg m-3). Default is near sea level.
+
+    Returns
+    -------
+    array-like
+        Monin-Obukhov length (m). Positive for stable, negative for unstable.
+    """
+    from .constants import SPECIFIC_HEAT_AIR
+
+    ta_k = air_temperature_c + T_ZERO
+    sensible_heat = net_available_energy - latent_heat_flux
+    denom = (sensible_heat / (ta_k * SPECIFIC_HEAT_AIR) + 0.61 * latent_heat_flux / (air_density * SPECIFIC_HEAT_AIR))
+    denom = np.where(np.abs(denom) < 1e-9, 1e-9, denom)
+
+    return -(air_density * SPECIFIC_HEAT_AIR * ta_k * u_star ** 3) / (VON_KARMAN * GRAVITY * denom)
+
+
+def wind_function_with_stability(u_z, air_temperature_c, measurement_height, displacement_height, z0m, z0v, psi_m, psi_v):
+    """
+    Wind function with stability corrections for evaporation calculations.
+
+    Parameters
+    ----------
+    u_z : float or array-like
+        Wind speed at measurement height (m s-1).
+    air_temperature_c : float or array-like
+        Air temperature (°C).
+    measurement_height : float
+        Measurement height z (m).
+    displacement_height : float
+        Zero-plane displacement height (m).
+    z0m : float
+        Roughness length for momentum (m).
+    z0v : float
+        Roughness length for scalars (e.g., water vapor) (m).
+    psi_m : float or array-like
+        Momentum stability correction term.
+    psi_v : float or array-like
+        Scalar stability correction term.
+
+    Returns
+    -------
+    array-like
+        Wind function :math:`f_e` (m s-1 kPa-1) for Penman-type equations.
+    """
+    from .constants import SPECIFIC_GAS_CONSTANT_DRY_AIR
+
+    ta_k = air_temperature_c + T_ZERO
+    num = 0.622 * VON_KARMAN ** 2 * u_z
+    denom = (
+        SPECIFIC_GAS_CONSTANT_DRY_AIR * ta_k
+        * (np.log((measurement_height - displacement_height) / z0v) - psi_v)
+        * (np.log((measurement_height - displacement_height) / z0m) - psi_m)
+    )
+    denom = np.where(np.abs(denom) < 1e-9, 1e-9, denom)
+    return num / denom

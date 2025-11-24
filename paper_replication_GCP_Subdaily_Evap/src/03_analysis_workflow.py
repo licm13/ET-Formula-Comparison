@@ -12,11 +12,16 @@ Main analysis workflow:
 
 from pathlib import Path
 import json
+import sys
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
 import pandas as pd
 
 from utils import log, compute_metrics
-from model_definition import GCPWithStability
+from pet_comparison.formulas.gcp_stability import GCPWithStability
 
 
 def load_processed_site(path: Path) -> pd.DataFrame:
@@ -62,19 +67,19 @@ def run_site_analysis(
 
     # 1) 带稳定度修正的 βc 标定
     calib_stab = model.calibrate_beta_c(
-        Qne=Qne,
-        Ta_C=Ta_C,
-        D1_kpa=D1,
+        net_available_energy=Qne,
+        air_temperature_c=Ta_C,
+        vapor_pressure_deficit_kpa=D1,
         u2=u2,
-        E_obs=E_obs,
+        observed_evaporation=E_obs,
         beta_bounds=(0.7, 1.5),
         with_stability=True,
     )
 
     res_stab = model.estimate_time_series(
-        Qne=Qne,
-        Ta_C=Ta_C,
-        D1_kpa=D1,
+        net_available_energy=Qne,
+        air_temperature_c=Ta_C,
+        vapor_pressure_deficit_kpa=D1,
         u2=u2,
         beta_c=calib_stab["beta_c"],
         with_stability=True,
@@ -83,19 +88,19 @@ def run_site_analysis(
 
     # 2) 不考虑稳定度修正（中性）
     calib_neutral = model.calibrate_beta_c(
-        Qne=Qne,
-        Ta_C=Ta_C,
-        D1_kpa=D1,
+        net_available_energy=Qne,
+        air_temperature_c=Ta_C,
+        vapor_pressure_deficit_kpa=D1,
         u2=u2,
-        E_obs=E_obs,
+        observed_evaporation=E_obs,
         beta_bounds=(0.7, 1.5),
         with_stability=False,
     )
 
     res_neutral = model.estimate_time_series(
-        Qne=Qne,
-        Ta_C=Ta_C,
-        D1_kpa=D1,
+        net_available_energy=Qne,
+        air_temperature_c=Ta_C,
+        vapor_pressure_deficit_kpa=D1,
         u2=u2,
         beta_c=calib_neutral["beta_c"],
         with_stability=False,
