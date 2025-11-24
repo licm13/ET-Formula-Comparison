@@ -46,7 +46,8 @@ def _compute_metrics(est: np.ndarray, obs: np.ndarray) -> Dict[str, float]:
     r2 = 1.0 - ss_res / ss_tot if ss_tot != 0 else np.nan
 
     rmse = np.sqrt(np.mean((obs_masked - est_masked) ** 2))
-    bias_pct = 100.0 * (np.mean(est_masked) - np.mean(obs_masked)) / np.mean(obs_masked)
+    obs_mean_val = np.mean(obs_masked)
+    bias_pct = 100.0 * (np.mean(est_masked) - obs_mean_val) / obs_mean_val if obs_mean_val != 0 else np.nan
 
     return dict(slope=slope, r2=r2, rmse=rmse, bias_pct=bias_pct)
 
