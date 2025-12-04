@@ -323,7 +323,8 @@ class SpatialStressTest:
             available_energy = ds['Rn'] * 0.0864
 
             # Allow 10% margin for aerodynamic term contribution
-            energy_violation = et_energy > (available_energy + 5.0)
+            ENERGY_VIOLATION_MARGIN_MJ_DAY = 5.0
+            energy_violation = et_energy > (available_energy + ENERGY_VIOLATION_MARGIN_MJ_DAY)
             violation_count = energy_violation.sum().item()
             violation_pct = (violation_count / et.size) * 100
 
