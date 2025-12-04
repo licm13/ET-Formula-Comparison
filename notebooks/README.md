@@ -92,7 +92,7 @@ Learners who completed Notebooks 1-2, or advanced students interested in climate
 
 ```bash
 # 进入项目根目录 / Navigate to project root
-cd ET-Formula-Comparison
+cd PET-Formula-Comparison
 
 # 安装项目（开发模式）/ Install project (development mode)
 pip install -e .
