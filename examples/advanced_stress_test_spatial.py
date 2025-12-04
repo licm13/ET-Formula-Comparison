@@ -343,7 +343,9 @@ class SpatialStressTest:
 
             # Constraint 5: Drought area check (low ET in dry regions)
             # Select southern region (dry)
-            drought_area = et.isel(lat=slice(80, 100))
+            # Select northern 20% of the domain (dry)
+            start_lat_for_drought = self.lat[int(0.8 * self.lat_size)]
+            drought_area = et.sel(lat=slice(start_lat_for_drought, None))
             drought_mean = drought_area.mean().item()
             print(f"      Mean ET in drought area: {drought_mean:.2f} mm/day")
 
